@@ -4,6 +4,7 @@
 
 document.addEventListener('DOMContentLoaded', () => {
   initNavbar();
+  initHeroThreeShader();
   initPublicationsExplorer();
   initRoiCalculator();
   initPricingToggle();
@@ -12,6 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initStatsCounter();
   initWorldClocks();
 });
+
 
 /* ==========================================================================
    1. Navigation & Header Scroll Behavior
@@ -470,3 +472,131 @@ function initWorldClocks() {
   updateClocks();
   setInterval(updateClocks, 1000);
 }
+
+/* ==========================================================================
+   9. Three.js 3D Golden Particle & Wave Shader Background
+   ========================================================================== */
+function initHeroThreeShader() {
+  const canvas = document.getElementById('hero-webgl-canvas');
+  if (!canvas || typeof THREE === 'undefined') return;
+
+  const heroSection = document.querySelector('.hero');
+  if (!heroSection) return;
+
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(60, heroSection.clientWidth / heroSection.clientHeight, 1, 1000);
+  camera.position.set(0, 50, 180);
+  camera.lookAt(0, 0, 0);
+
+  const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+  renderer.setSize(heroSection.clientWidth, heroSection.clientHeight);
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+  // Particle Wave Grid Geometry
+  const countX = 60;
+  const countY = 60;
+  const numParticles = countX * countY;
+  const positions = new Float32Array(numParticles * 3);
+  const scales = new Float32Array(numParticles);
+  const colors = new Float32Array(numParticles * 3);
+
+  const goldColor1 = new THREE.Color(0xD4AF37); // Champagne Gold
+  const goldColor2 = new THREE.Color(0xF6E6A8); // Light Gold
+  const darkNavy = new THREE.Color(0x101E35);   // Deep Navy
+
+  let i = 0, j = 0;
+  for (let ix = 0; ix < countX; ix++) {
+    for (let iy = 0; iy < countY; iy++) {
+      positions[i] = ix * 14 - (countX * 14) / 2; // x
+      positions[i + 1] = 0;                       // y
+      positions[i + 2] = iy * 14 - (countY * 14) / 2; // z
+
+      scales[j] = 1.0;
+
+      const mixedColor = ix % 3 === 0 ? goldColor2 : (ix % 2 === 0 ? goldColor1 : darkNavy);
+      colors[i] = mixedColor.r;
+      colors[i + 1] = mixedColor.g;
+      colors[i + 2] = mixedColor.b;
+
+      i += 3;
+      j++;
+    }
+  }
+
+  const geometry = new THREE.BufferGeometry();
+  geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+  geometry.setAttribute('scale', new THREE.BufferAttribute(scales, 1));
+  geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+
+  // Custom Particle Shader Material
+  const shaderMaterial = new THREE.ShaderMaterial({
+    uniforms: {
+      uTime: { value: 0 }
+    },
+    vertexShader: `
+      attribute float scale;
+      attribute vec3 color;
+      varying vec3 vColor;
+      uniform float uTime;
+      void main() {
+        vColor = color;
+        vec3 p = position;
+        p.y += sin((p.x * 0.05) + uTime * 1.5) * 12.0 + cos((p.z * 0.05) + uTime * 1.2) * 12.0;
+        vec4 mvPosition = modelViewMatrix * vec4(p, 1.0);
+        gl_PointSize = (scale * 3.5) * (180.0 / -mvPosition.z);
+        gl_Position = projectionMatrix * mvPosition;
+      }
+    `,
+    fragmentShader: `
+      varying vec3 vColor;
+      void main() {
+        float d = length(gl_PointCoord - vec2(0.5, 0.5));
+        if (d > 0.5) discard;
+        float alpha = smoothstep(0.5, 0.05, d) * 0.85;
+        gl_FragColor = vec4(vColor, alpha);
+      }
+    `,
+    transparent: true,
+    depthWrite: false,
+    blending: THREE.AdditiveBlending
+  });
+
+  const particles = new THREE.Points(geometry, shaderMaterial);
+  scene.add(particles);
+
+  // Mouse Interaction
+  let mouseX = 0, mouseY = 0;
+  let targetX = 0, targetY = 0;
+  window.addEventListener('mousemove', (e) => {
+    mouseX = (e.clientX - window.innerWidth / 2) * 0.04;
+    mouseY = (e.clientY - window.innerHeight / 2) * 0.04;
+  });
+
+  // Animation Loop
+  let clock = new THREE.Clock();
+  function animate() {
+    requestAnimationFrame(animate);
+    const elapsedTime = clock.getElapsedTime();
+
+    shaderMaterial.uniforms.uTime.value = elapsedTime;
+
+    targetX += (mouseX - targetX) * 0.05;
+    targetY += (mouseY - targetY) * 0.05;
+
+    camera.position.x = targetX * 0.8;
+    camera.position.y = 50 - (targetY * 0.4);
+    camera.lookAt(0, 0, 0);
+
+    renderer.render(scene, camera);
+  }
+  animate();
+
+  // Resize Listener
+  window.addEventListener('resize', () => {
+    if (!heroSection) return;
+    camera.aspect = heroSection.clientWidth / heroSection.clientHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(heroSection.clientWidth, heroSection.clientHeight);
+  });
+}
+

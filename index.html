@@ -18,6 +18,8 @@
   
   <!-- Stylesheet -->
   <link rel="stylesheet" href="css/style.css">
+  <!-- Three.js 3D WebGL Library -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 </head>
 <body>
 
@@ -28,6 +30,7 @@
 
   <!-- Header & Navigation -->
   <header class="site-header">
+
     <div class="container nav-wrapper">
       <a href="#" class="logo-brand">
         <div class="logo-symbol">B</div>
@@ -59,8 +62,11 @@
 
   <!-- Hero Section -->
   <section class="hero">
+    <!-- Interactive Three.js 3D Shader Particle Canvas -->
+    <canvas id="hero-webgl-canvas" class="hero-webgl-canvas"></canvas>
     <div class="container">
       <div class="hero-grid">
+
         <div class="hero-content">
           <div class="guarantee-pill">
             <span class="pulse-dot"></span>
