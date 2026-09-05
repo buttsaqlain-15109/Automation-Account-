@@ -96,8 +96,9 @@ function initPublicationsExplorer() {
     }
 
     pubGrid.innerHTML = filtered.map(pub => `
-      <div class="pub-card">
+      <div class="pub-card liquid-glass">
         <div>
+
           <div class="pub-header">
             <div class="pub-name">${pub.name}</div>
             <span class="pub-badge-tier">${pub.tier}</span>
