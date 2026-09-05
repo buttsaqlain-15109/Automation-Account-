@@ -4,8 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build:css": "npx @tailwindcss/cli -i ./src/input.css -o ./css/tailwind.css",
+    "watch:css": "npx @tailwindcss/cli -i ./src/input.css -o ./css/tailwind.css --watch",
+    "deploy": "npx wrangler pages deploy . --project-name baden-bower-pr"
   },
+
   "repository": {
     "type": "git",
     "url": "git+https://github.com/buttsaqlain-15109/Automation-Account-.git"
@@ -22,5 +25,11 @@
     "lucide-react": "^1.41.0",
     "shaders": "^3.2.466",
     "three": "^0.185.1"
+  },
+  "devDependencies": {
+    "@tailwindcss/cli": "^4.3.3",
+    "autoprefixer": "^10.5.5",
+    "postcss": "^8.5.28",
+    "tailwindcss": "^4.3.3"
   }
 }
