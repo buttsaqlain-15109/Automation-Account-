@@ -1,0 +1,26 @@
+{
+  "name": "automation-account-",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/buttsaqlain-15109/Automation-Account-.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/buttsaqlain-15109/Automation-Account-/issues"
+  },
+  "homepage": "https://github.com/buttsaqlain-15109/Automation-Account-#readme",
+  "dependencies": {
+    "lucide-react": "^1.41.0",
+    "shaders": "^3.2.466",
+    "three": "^0.185.1"
+  }
+}
