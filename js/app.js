@@ -46,26 +46,31 @@ function initNavbar() {
 }
 
 /* ==========================================================================
-   2. Interactive Publications Directory & Search Filter
+   2. Interactive Publications Directory & Search Filter (2,125+ Vetted Outlets)
    ========================================================================== */
 const PUBLICATIONS_DATA = [
-  { name: 'Forbes', tier: 'Tier-1 Masthead', category: 'business', da: 94, readers: '140M/mo', turnaround: '72h Guaranteed', type: 'Editorial Feature' },
-  { name: 'Business Insider', tier: 'Tier-1 Masthead', category: 'business', da: 92, readers: '95M/mo', turnaround: '48h Guaranteed', type: 'Journalist Article' },
-  { name: 'Bloomberg', tier: 'Tier-1 Masthead', category: 'finance', da: 94, readers: '80M/mo', turnaround: '4-5 Days', type: 'Market Spotlight' },
-  { name: 'TechCrunch', tier: 'Tier-1 Tech', category: 'tech', da: 92, readers: '30M/mo', turnaround: '3-4 Days', type: 'Product Feature' },
-  { name: 'Vogue', tier: 'Tier-1 Luxury', category: 'luxury', da: 89, readers: '22M/mo', turnaround: '72h Guaranteed', type: 'Style & Culture' },
-  { name: 'Vanity Fair', tier: 'Tier-1 Luxury', category: 'luxury', da: 88, readers: '18M/mo', turnaround: '4-5 Days', type: 'Editorial Profile' },
-  { name: 'Reuters', tier: 'Global Wire', category: 'wires', da: 93, readers: '65M/mo', turnaround: '48h Guaranteed', type: 'Syndicated Wire' },
-  { name: 'Associated Press', tier: 'Global Wire', category: 'wires', da: 92, readers: '50M/mo', turnaround: '24-48h SLA', type: 'Syndicated Wire' },
-  { name: 'Yahoo Finance', tier: 'Global Finance', category: 'finance', da: 92, readers: '180M/mo', turnaround: '24h SLA', type: 'Finance Release' },
-  { name: 'Entrepreneur', tier: 'Tier-1 Business', category: 'business', da: 91, readers: '25M/mo', turnaround: '72h Guaranteed', type: 'Thought Leadership' },
-  { name: 'Inc. Magazine', tier: 'Tier-1 Business', category: 'business', da: 91, readers: '20M/mo', turnaround: '72h Guaranteed', type: 'Founder Story' },
-  { name: 'Wired', tier: 'Tier-1 Tech', category: 'tech', da: 93, readers: '35M/mo', turnaround: '3-5 Days', type: 'Innovation Deep-Dive' },
-  { name: 'Fast Company', tier: 'Tier-1 Business', category: 'business', da: 91, readers: '18M/mo', turnaround: '3-4 Days', type: 'Disruptor Column' },
-  { name: 'CoinTelegraph', tier: 'Crypto & Web3', category: 'crypto', da: 84, readers: '12M/mo', turnaround: '24-48h SLA', type: 'Web3 Spotlight' },
-  { name: 'MarketWatch', tier: 'Global Finance', category: 'finance', da: 91, readers: '70M/mo', turnaround: '48h Guaranteed', type: 'Investor News' },
-  { name: 'Wall Street Journal', tier: 'Tier-1 Masthead', category: 'finance', da: 95, readers: '110M/mo', turnaround: '5-7 Days', type: 'Syndicated Feature' }
+  { name: 'Forbes', tier: 'Tier-1 Masthead', category: 'business', da: 94, dr: 92, readers: '140M/mo', turnaround: '72h Guaranteed', type: 'Editorial Feature', price: '$4,200', aeo: true },
+  { name: 'Business Insider', tier: 'Tier-1 Masthead', category: 'business', da: 92, dr: 90, readers: '95M/mo', turnaround: '48h Guaranteed', type: 'Journalist Article', price: '$2,800', aeo: true },
+  { name: 'Bloomberg', tier: 'Tier-1 Masthead', category: 'finance', da: 94, dr: 93, readers: '80M/mo', turnaround: '4-5 Days', type: 'Market Spotlight', price: '$5,500', aeo: true },
+  { name: 'TechCrunch', tier: 'Tier-1 Tech', category: 'tech', da: 92, dr: 91, readers: '30M/mo', turnaround: '3-4 Days', type: 'Product Feature', price: '$3,400', aeo: true },
+  { name: 'Vogue', tier: 'Tier-1 Luxury', category: 'luxury', da: 89, dr: 88, readers: '22M/mo', turnaround: '72h Guaranteed', type: 'Style & Culture', price: '$4,800', aeo: false },
+  { name: 'Vanity Fair', tier: 'Tier-1 Luxury', category: 'luxury', da: 88, dr: 87, readers: '18M/mo', turnaround: '4-5 Days', type: 'Editorial Profile', price: '$4,500', aeo: false },
+  { name: 'Reuters', tier: 'Global Wire', category: 'wires', da: 93, dr: 92, readers: '65M/mo', turnaround: '48h Guaranteed', type: 'Syndicated Wire', price: '$1,850', aeo: true },
+  { name: 'Associated Press', tier: 'Global Wire', category: 'wires', da: 92, dr: 91, readers: '50M/mo', turnaround: '24-48h SLA', type: 'Syndicated Wire', price: '$990', aeo: true },
+  { name: 'Yahoo Finance', tier: 'Global Finance', category: 'finance', da: 92, dr: 93, readers: '180M/mo', turnaround: '24h SLA', type: 'Finance Release', price: '$990', aeo: true },
+  { name: 'Entrepreneur', tier: 'Tier-1 Business', category: 'business', da: 91, dr: 89, readers: '25M/mo', turnaround: '72h Guaranteed', type: 'Thought Leadership', price: '$1,950', aeo: true },
+  { name: 'Inc. Magazine', tier: 'Tier-1 Business', category: 'business', da: 91, dr: 90, readers: '20M/mo', turnaround: '72h Guaranteed', type: 'Founder Story', price: '$2,200', aeo: true },
+  { name: 'Wired', tier: 'Tier-1 Tech', category: 'tech', da: 93, dr: 92, readers: '35M/mo', turnaround: '3-5 Days', type: 'Innovation Deep-Dive', price: '$3,800', aeo: true },
+  { name: 'Fast Company', tier: 'Tier-1 Business', category: 'business', da: 91, dr: 90, readers: '18M/mo', turnaround: '3-4 Days', type: 'Disruptor Column', price: '$2,600', aeo: true },
+  { name: 'CoinTelegraph', tier: 'Crypto & Web3', category: 'crypto', da: 84, dr: 82, readers: '12M/mo', turnaround: '24-48h SLA', type: 'Web3 Spotlight', price: '$1,400', aeo: true },
+  { name: 'MarketWatch', tier: 'Global Finance', category: 'finance', da: 91, dr: 89, readers: '70M/mo', turnaround: '48h Guaranteed', type: 'Investor News', price: '$1,650', aeo: true },
+  { name: 'Wall Street Journal', tier: 'Tier-1 Masthead', category: 'finance', da: 95, dr: 94, readers: '110M/mo', turnaround: '5-7 Days', type: 'Syndicated Feature', price: '$8,900', aeo: true },
+  { name: 'USA Today', tier: 'National News', category: 'business', da: 93, dr: 91, readers: '90M/mo', turnaround: '48h Guaranteed', type: 'National Feature', price: '$1,800', aeo: true },
+  { name: 'Digital Journal', tier: 'Tech & PR Wire', category: 'wires', da: 87, dr: 80, readers: '8M/mo', turnaround: '24h SLA', type: 'Indexed News Release', price: '$49', aeo: true },
+  { name: 'Benzinga', tier: 'Market News', category: 'finance', da: 88, dr: 85, readers: '15M/mo', turnaround: '24h SLA', type: 'Financial Article', price: '$350', aeo: true },
+  { name: 'Tech Times', tier: 'Tech News', category: 'tech', da: 83, dr: 79, readers: '5M/mo', turnaround: '48h Guaranteed', type: 'Tech Feature', price: '$180', aeo: true }
 ];
+
 
 function initPublicationsExplorer() {
   const pubGrid = document.getElementById('pubGrid');
@@ -95,20 +100,23 @@ function initPublicationsExplorer() {
         </div>
       `;
       return;
-    }
-
-    pubGrid.innerHTML = filtered.map(pub => `
+    }    pubGrid.innerHTML = filtered.map(pub => `
       <div class="pub-card liquid-glass">
         <div>
-
           <div class="pub-header">
-            <div class="pub-name">${pub.name}</div>
-            <span class="pub-badge-tier">${pub.tier}</span>
+            <div>
+              <div class="pub-name">${pub.name}</div>
+              <div style="display: flex; gap: 6px; align-items: center; margin-top: 4px;">
+                <span class="pub-badge-tier">${pub.tier}</span>
+                ${pub.aeo ? '<span class="badge-aeo">AI / LLM Cited</span>' : ''}
+              </div>
+            </div>
+            <div class="pub-price-tag">${pub.price}</div>
           </div>
           <div class="pub-meta-list">
             <div class="pub-meta-row">
-              <span>Domain Authority (DA)</span>
-              <strong style="color: var(--gold-light);">${pub.da}/100</strong>
+              <span>Domain Authority (DA / DR)</span>
+              <strong style="color: var(--gold-light);">DA ${pub.da} | DR ${pub.dr}</strong>
             </div>
             <div class="da-bar-wrapper">
               <div class="da-bar-fill" style="width: ${pub.da}%"></div>
@@ -129,8 +137,6 @@ function initPublicationsExplorer() {
             ${pub.turnaround}
           </span>
           <button class="pub-select-btn" onclick="openBookingModalWithOutlet('${pub.name}')">Select Outlet</button>
-        </div>
-      </div>
     `).join('');
   }
 
@@ -154,7 +160,23 @@ function initPublicationsExplorer() {
       renderPublications();
     });
   });
+
+  window.filterByGoal = function(category, searchTerm) {
+    const pubSection = document.getElementById('publications');
+    if (pubSection) pubSection.scrollIntoView({ behavior: 'smooth' });
+
+    currentCategory = category || 'all';
+    searchQuery = searchTerm || '';
+    if (searchInput) searchInput.value = searchQuery;
+
+    filterChips.forEach(c => {
+      c.classList.toggle('active', (c.getAttribute('data-filter') || 'all') === currentCategory);
+    });
+
+    renderPublications();
+  };
 }
+
 
 /* ==========================================================================
    3. PR ROI & Earned Media Value (EMV) Calculator
